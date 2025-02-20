@@ -22,9 +22,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import Modules.User_SignUpBackend;
 
-public class User_Librarian extends JFrame {
+public class User_Librarian extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -37,7 +40,15 @@ public class User_Librarian extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-
+	private JButton Update_btn;
+	private JButton dashboard_btn;
+	private JButton Books_btn;
+	private JButton User_btn;
+	private JButton Record_btn;
+	private JButton Logout_btn;
+	private JButton Add_btn;
+	private JTextField textField_6;
+	User_SignUpBackend user = new User_SignUpBackend();
 	/**
 	 * Launch the application.
 	 */
@@ -78,44 +89,49 @@ public class User_Librarian extends JFrame {
 		contentPane.add(sidepanel);
 		sidepanel.setLayout(null);
 		
-		JButton dashboard_btn = new JButton("DASHBOARD");
+	    dashboard_btn = new JButton("DASHBOARD");
 		dashboard_btn.setForeground(new Color(57, 28, 11));
 		dashboard_btn.setBackground(new Color(238, 180, 98));
 		dashboard_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		dashboard_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		dashboard_btn.setBounds(3, 69, 196, 47);
+		dashboard_btn.addActionListener(this);
 		sidepanel.add(dashboard_btn);
 		
-		JButton Books_btn = new JButton("BOOKS");
+	    Books_btn = new JButton("BOOKS");
 		Books_btn.setForeground(new Color(57, 28, 11));
 		Books_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Books_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Books_btn.setBackground(new Color(238, 180, 98));
 		Books_btn.setBounds(3, 127, 196, 47);
+		Books_btn.addActionListener(this);
 		sidepanel.add(Books_btn);
 		
-		JButton User_btn = new JButton("USER");
+	    User_btn = new JButton("USER");
 		User_btn.setForeground(new Color(57, 28, 11));
 		User_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		User_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		User_btn.setBackground(new Color(238, 180, 98));
 		User_btn.setBounds(3, 184, 196, 47);
+		User_btn.addActionListener(this);
 		sidepanel.add(User_btn);
 		
-		JButton Record_btn = new JButton("RECORDS");
+	    Record_btn = new JButton("RECORDS");
 		Record_btn.setForeground(new Color(57, 28, 11));
 		Record_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Record_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Record_btn.setBackground(new Color(238, 180, 98));
 		Record_btn.setBounds(3, 241, 196, 47);
+		Record_btn.addActionListener(this);
 		sidepanel.add(Record_btn);
 		
-		JButton Logout_btn = new JButton("LOG OUT");
+	    Logout_btn = new JButton("LOG OUT");
 		Logout_btn.setForeground(new Color(57, 28, 11));
 		Logout_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Logout_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Logout_btn.setBackground(new Color(238, 180, 98));
 		Logout_btn.setBounds(3, 573, 196, 47);
+		Logout_btn.addActionListener(this);
 		sidepanel.add(Logout_btn);
 		
 		JPanel toppanel = new JPanel();
@@ -143,24 +159,23 @@ public class User_Librarian extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton Add_btn = new JButton("ADD");
+	    Add_btn = new JButton("ADD");
 		Add_btn.setForeground(new Color(57, 28, 11));
 		Add_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Add_btn.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		Add_btn.setBackground(new Color(244, 208, 159));
-		Add_btn.setBounds(820, 49, 153, 35);
+		Add_btn.setBounds(820, 98, 153, 35);
+		Add_btn.addActionListener(this);
 		panel.add(Add_btn);
 		
-		JButton Update_btn = new JButton("UPDATE");
-		Update_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+	    Update_btn = new JButton("UPDATE");
+		Update_btn.addActionListener(this);
 		Update_btn.setForeground(new Color(57, 28, 11));
 		Update_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Update_btn.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		Update_btn.setBackground(new Color(244, 208, 159));
-		Update_btn.setBounds(820, 120, 153, 35);
+		Update_btn.setBounds(820, 132, 153, 35);
+		Update_btn.addActionListener(this);
 		panel.add(Update_btn);
 		
 		textField = new JTextField();
@@ -253,6 +268,21 @@ public class User_Librarian extends JFrame {
 		textField_5.setBounds(568, 133, 205, 35);
 		panel.add(textField_5);
 		
+		textField_6 = new JTextField();
+		textField_6.setForeground(new Color(57, 28, 11));
+		textField_6.setFont(new Font("Lucida Sans", Font.BOLD, 14));
+		textField_6.setColumns(10);
+		textField_6.setBorder(new LineBorder(new Color(57, 28, 11), 2));
+		textField_6.setBackground(new Color(241, 230, 205));
+		textField_6.setBounds(789, 50, 205, 35);
+		panel.add(textField_6);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setForeground(new Color(57, 28, 11));
+		lblPassword.setFont(new Font("Lucida Sans", Font.BOLD, 14));
+		lblPassword.setBounds(788, 22, 124, 22);
+		panel.add(lblPassword);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(249, 162, 1023, 309);
 		contentPane.add(scrollPane);
@@ -295,9 +325,27 @@ public class User_Librarian extends JFrame {
 				{null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"First Name", "Middle Initial", "Surname", "Username", "Email", "Phone Number", "Action"
+				"First Name", "Middle Initial", "Surname", "Email", "Phone Number", "Username", "Password", "Role"
 			}
 		));
+		
+		table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow >= 0) {
+                    // Fill text fields with selected row data
+                	textField_1.setText(table.getValueAt(selectedRow, 0).toString());
+                	textField_2.setText(table.getValueAt(selectedRow, 1).toString());
+                	textField_4.setText(table.getValueAt(selectedRow, 2).toString());
+                	textField.setText(table.getValueAt(selectedRow, 3).toString());
+                	textField_3.setText(table.getValueAt(selectedRow, 4).toString());
+                	textField_5.setText(table.getValueAt(selectedRow, 5).toString());
+                	textField_6.setText(table.getValueAt(selectedRow, 6).toString());
+                	
+                }
+            }
+        });
 		
 		table.setBackground(new Color(244, 208, 159));
 		scrollPane.setViewportView(table);
@@ -332,5 +380,58 @@ public class User_Librarian extends JFrame {
 		mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		mainlbl.setBounds(0, 0, 1306, 708);
 		contentPane.add(mainlbl);
+		user.loadUserTable(table);
+		setLocationRelativeTo(null);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		// TODO Auto-generated method stub
+		if (e.getSource() == Update_btn) 
+		{
+			String firstname = textField_1.getText();
+			String middleinitial = textField_2.getText();
+			String surname = textField_4.getText();
+			String username = textField.getText();
+			String email = textField_3.getText();
+			String phonenumber = textField_5.getText();
+			String password = textField_6.getText();
+			user.addUser(firstname, middleinitial, surname, email, phonenumber, username, password);
+		}
+		
+		else if (e.getSource() == Add_btn) 
+		{
+			String firstname = textField_1.getText();
+			String middleinitial = textField_2.getText();
+			String surname = textField_4.getText();
+			String username = textField.getText();
+			String email = textField_3.getText();
+			String phonenumber = textField_5.getText();
+			String password = textField_6.getText();
+			user.updateUser(firstname, middleinitial, surname, email, phonenumber, username, password, password);
+		}
+		else if (e.getSource() == dashboard_btn) 
+        {
+           dispose();
+           new Dashboard_Librarian().setVisible(true);
+        }
+        else if (e.getSource() == Books_btn) 
+        {
+            dispose();
+            new Books_Librarian().setVisible(true);
+        }
+        else if (e.getSource() == Record_btn) 
+        {
+        	  dispose();
+        	  new Records_Librarian().setVisible(true);
+        }
+        else if (e.getSource() == Logout_btn) 
+        {
+            dispose();
+            new User_Login().setVisible(true);
+        }
+		
+		
 	}
 }

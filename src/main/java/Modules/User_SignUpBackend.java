@@ -73,7 +73,7 @@ public class User_SignUpBackend
 		try 
 		{
 			connection = db.getConnection();
-			PreparedStatement ps = connection.prepareStatement("UPDATE users SET First_Name = ?, Middle_Initial = ?, LastName = ?, Email = ?, Phone_Number = ?, UserName = ?, Password = ?, Role = ? WHERE UserName = ?");
+			PreparedStatement ps = connection.prepareStatement("UPDATE users SET First_Name = ?, Middle_Name = ?, LastName = ?, Email = ?, Phone_Number = ?, UserName = ?, Password = ?, Role = ? WHERE UserName = ?");
 			ps.setString(1, getFirstName());
 			ps.setString(2, getMiddleInitial());
 			ps.setString(3, getLastName());
@@ -125,7 +125,7 @@ public class User_SignUpBackend
 
 			while (rs.next()) {
 				String FirstName = rs.getString("First_Name");
-				String MiddleInitial = rs.getString("Middle_Initial");
+				String MiddleInitial = rs.getString("Middle_Name");
 				String LastName = rs.getString("LastName");
 				String Email = rs.getString("Email");
 				String Phone = rs.getString("Phone_Number");
@@ -148,13 +148,13 @@ public class User_SignUpBackend
             // Establish the connection
             connection = db.getConnection();
             Statement statement = connection.createStatement();
-            String query = "SELECT First_Name, Middle_Initial, LastName, Email, Phone_Number, UserName, Password, Role FROM users";
+            String query = "SELECT First_Name, Middle_Name, LastName, Email, Phone_Number, UserName, Password, Role FROM users";
             ResultSet resultSet = statement.executeQuery(query);
 
            
             while (resultSet.next()) {
                 String firstName = resultSet.getString("First_Name");
-                String middleInitial = resultSet.getString("Middle_Initial");
+                String middleInitial = resultSet.getString("Middle_Name");
                 String lastName = resultSet.getString("LastName");
                 String Email = resultSet.getString("Email");
 				String Phone = resultSet.getString("Phone_Number");

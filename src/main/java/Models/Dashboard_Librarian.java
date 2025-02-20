@@ -282,7 +282,7 @@ public class Dashboard_Librarian extends JFrame {
 																		panel_3_1.add(lblOverdueBooks_1);
 																		
 																				mainlbl.setBackground(new Color(238, 180, 98));
-																				//mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
+																				mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 																				mainlbl.setBounds(0, 0, 1306, 708);
 																				contentPane.add(mainlbl);
 	}
