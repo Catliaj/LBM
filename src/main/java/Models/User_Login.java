@@ -132,7 +132,7 @@ public class User_Login extends JFrame implements ActionListener{
 			if(authentication.loginSuccess())
 			{
 				dispose();
-				new User_Librarian().setVisible(true);
+				new Dashboard_User().setVisible(true);
 			}
 			else
 			{

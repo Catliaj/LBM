@@ -2,6 +2,8 @@ package Modules;
 import java.sql.*;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import Connection.db_connection;
 
@@ -76,6 +78,25 @@ public class Books_Backend
 			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
 		}
 
+	}
+	
+	public void loadBooktable(JTable table) {
+		try {
+			connection = db.getConnection();
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM books");
+			ResultSet rs = ps.executeQuery();
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			while (rs.next()) {
+				model.addRow(new Object[] { rs.getString("Title"), rs.getString("Author"),
+						rs.getInt("ISBN"), rs.getString("Genre"), rs.getString("Publisher"),
+						rs.getString("Publication_Year"), rs.getString("Quantity"), rs.getString("Location") });
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+		}
 	}
 	
 	
