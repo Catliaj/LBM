@@ -28,6 +28,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.border.BevelBorder;
+import Modules.Dasbhoard_UserBackend;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import javax.swing.JTextPane;
 
 public class Dashboard_User extends JFrame implements ActionListener{
 
@@ -37,12 +41,15 @@ public class Dashboard_User extends JFrame implements ActionListener{
 	private JLabel timeLabel;
 	private JLabel dateLabel;
 	private JTable table;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textField1;
+	private JTextField textField2;
 	private JButton User_btn;
 	private JButton Logout_btn;
 	private JButton borrow;
 	private JButton renew;
+	private JLabel name;
+	private JTextArea textArea;
+	Dasbhoard_UserBackend user = new Dasbhoard_UserBackend();
 
 	/**
 	 * Launch the application.
@@ -51,7 +58,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard_User frame = new Dashboard_User();
+					Dashboard_User frame = new Dashboard_User(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +70,17 @@ public class Dashboard_User extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public Dashboard_User() {
+	private String Username;
+	public String getUsername() {
+		return Username;
+	}
+
+	public void setUsername(String username) {
+		Username = username;
+	}
+
+	public Dashboard_User(String Username) {
+		setUsername(Username);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1320, 745);
 		contentPane = new JPanel();
@@ -99,6 +116,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		User_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		User_btn.setBackground(new Color(238, 180, 98));
 		User_btn.setBounds(3, 149, 196, 65);
+		User_btn.addActionListener(this);
 		sidepanel.add(User_btn);
 		
 	    Logout_btn = new JButton("LOG OUT");
@@ -107,6 +125,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		Logout_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Logout_btn.setBackground(new Color(238, 180, 98));
 		Logout_btn.setBounds(3, 555, 196, 65);
+		Logout_btn.addActionListener(this);
 		sidepanel.add(Logout_btn);
 		
 		JPanel toppanel = new JPanel();
@@ -117,15 +136,20 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		
 		JPanel panel_admin = new JPanel();
 		panel_admin.setBackground(new Color(238, 180, 98));
-		panel_admin.setBounds(10, 20, 244, 58);
+		panel_admin.setBounds(10, 20, 398, 58);
 		panel_admin.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		contentPane.add(panel_admin);
 		panel_admin.setLayout(null);
 		
-		JLabel welcomelbl = new JLabel("WELCOME, USER!");
+		JLabel welcomelbl = new JLabel("WELCOME, ");
 		welcomelbl.setFont(new Font("Lucida Sans", Font.BOLD, 22));
-		welcomelbl.setBounds(23, 5, 252, 48);
+		welcomelbl.setBounds(10, 0, 130, 48);
 		panel_admin.add(welcomelbl);
+		
+	    name = new JLabel("WELCOME, ");
+		name.setFont(new Font("Lucida Sans", Font.BOLD, 22));
+		name.setBounds(131, 0, 257, 48);
+		panel_admin.add(name);
 														
 		JPanel panel_1_1_1 = new JPanel();
 		panel_1_1_1.setLayout(null);
@@ -139,6 +163,15 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		lblNotification.setFont(new Font("Lucida Sans", Font.BOLD, 22));
 		lblNotification.setBounds(21, 10, 252, 48);
 		panel_1_1_1.add(lblNotification);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(31, 192, 638, 0);
+		panel_1_1_1.add(scrollPane_1);
+		
+	    textArea = new JTextArea();
+	    textArea.setFont(new Font("Courier New", Font.BOLD, 15));
+		textArea.setBounds(21, 52, 664, 160);
+		panel_1_1_1.add(textArea);
 																				
 		JPanel panel_admin_1 = new JPanel();
 		panel_admin_1.setLayout(null);
@@ -223,11 +256,12 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel_1.setBounds(248, 130, 223, 114);
 		contentPane.add(panel_1);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBackground(new Color(238, 180, 98));
-		textField.setBounds(106, 20, 107, 63);
-		panel_1.add(textField);
+		textField1 = new JTextField();
+		textField1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField1.setColumns(10);
+		textField1.setBackground(new Color(238, 180, 98));
+		textField1.setBounds(106, 20, 107, 63);
+		panel_1.add(textField1);
 		
 		JLabel lblTotalBorrowed = new JLabel("TOTAL BORROWED");
 		lblTotalBorrowed.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -247,11 +281,12 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel_1_1.setBounds(568, 130, 223, 114);
 		contentPane.add(panel_1_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(238, 180, 98));
-		textField_1.setBounds(106, 20, 107, 63);
-		panel_1_1.add(textField_1);
+		textField2 = new JTextField();
+		textField2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField2.setColumns(10);
+		textField2.setBackground(new Color(238, 180, 98));
+		textField2.setBounds(106, 20, 107, 63);
+		panel_1_1.add(textField2);
 		
 		JLabel lblDueSoon = new JLabel("DUE SOON");
 		lblDueSoon.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -269,6 +304,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		borrow.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		borrow.setBackground(new Color(238, 180, 98));
 		borrow.setBounds(322, 568, 273, 75);
+		borrow.addActionListener(this);
 		contentPane.add(borrow);
 		
 	    renew = new JButton("RENEW BOOK");
@@ -277,12 +313,44 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		renew.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		renew.setBackground(new Color(238, 180, 98));
 		renew.setBounds(772, 568, 273, 75);
+		renew.addActionListener(this);
 		contentPane.add(renew);
-		
+		user.getName(getUsername());
+		UpdateLabelName(getUsername());
 		mainlbl.setBackground(new Color(238, 180, 98));
 		mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		mainlbl.setBounds(0, 0, 1306, 708);
 		contentPane.add(mainlbl);
+		user.loadHistoryTextArea(Username, textArea);
+		user.updateBorrowedAndDueSoonCounts(Username, textField1, textField2);
+		user.loadOverdueBooks(Username, table);
+        dateLabel = new JLabel();
+        dateLabel.setForeground(new Color(57, 28, 11));
+        dateLabel.setFont(new Font("Lucida Sans", Font.BOLD, 14));
+        dateLabel.setBounds(40, 24, 236, 30);
+        panel_admin_1.add(dateLabel);
+       		
+       		   timeLabel = new JLabel();
+       		   timeLabel.setBounds(90, 0, 141, 40);
+       		   panel_admin_1.add(timeLabel);
+       		   timeLabel.setForeground(new Color(57, 28, 11));
+       		   timeLabel.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+       		startClock();
+	}
+	
+	private void startClock() {
+	    Timer timer = new Timer(1000, new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
+	            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd, yyyy");
+
+	            Date now = new Date();
+	            timeLabel.setText(timeFormat.format(now));
+	            dateLabel.setText(dateFormat.format(now));
+	        }
+	    });
+	    timer.start();
 	}
 
 	@Override
@@ -292,7 +360,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		if(e.getSource() == borrow)
 		{
 			dispose();
-			new Borrow_User().setVisible(true);
+			new Borrow_User(getUsername()).setVisible(true);
 		}
 		else if(e.getSource() == renew)
 		{
@@ -307,8 +375,23 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		else if(e.getSource() == User_btn)
 		{
 			dispose();
-			new History_User().setVisible(true);
+			new History_User(getUsername()).setVisible(true);
 		}
 		
+	}
+	
+	private void UpdateLabelName(String username)
+	{
+		String updatename = user.getName(username);
+		if(updatename != null)
+		{
+			
+			name.setText("<html>" +updatename.replace("\n","<br>") + "</html>");
+		}
+		else
+		{
+			name.setText("User Not Found");
+		}
+				
 	}
 }

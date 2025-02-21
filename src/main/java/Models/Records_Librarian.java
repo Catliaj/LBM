@@ -24,14 +24,17 @@ import javax.swing.table.JTableHeader;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Records_Librarian extends JFrame {
+public class Records_Librarian extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private final JLabel mainlbl = new JLabel("");
 	private JTable table;
 	private JTextField search_textField;
-
+	private JButton dashboard_btn;
+	private JButton Books_btn;
+	private JButton User_btn;
+	private JButton Logout_btn;
 	/**
 	 * Launch the application.
 	 */
@@ -72,28 +75,31 @@ public class Records_Librarian extends JFrame {
 		contentPane.add(sidepanel);
 		sidepanel.setLayout(null);
 		
-		JButton dashboard_btn = new JButton("DASHBOARD");
+	    dashboard_btn = new JButton("DASHBOARD");
 		dashboard_btn.setForeground(new Color(57, 28, 11));
 		dashboard_btn.setBackground(new Color(238, 180, 98));
 		dashboard_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		dashboard_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		dashboard_btn.setBounds(3, 69, 196, 47);
+		dashboard_btn.addActionListener(this);
 		sidepanel.add(dashboard_btn);
 		
-		JButton Books_btn = new JButton("BOOKS");
+	    Books_btn = new JButton("BOOKS");
 		Books_btn.setForeground(new Color(57, 28, 11));
 		Books_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Books_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Books_btn.setBackground(new Color(238, 180, 98));
 		Books_btn.setBounds(3, 127, 196, 47);
+		Books_btn.addActionListener(this);
 		sidepanel.add(Books_btn);
 		
-		JButton User_btn = new JButton("USER");
+		User_btn = new JButton("USER");
 		User_btn.setForeground(new Color(57, 28, 11));
 		User_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		User_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		User_btn.setBackground(new Color(238, 180, 98));
 		User_btn.setBounds(3, 184, 196, 47);
+		User_btn.addActionListener(this);
 		sidepanel.add(User_btn);
 		
 		JButton Record_btn = new JButton("RECORDS");
@@ -104,12 +110,13 @@ public class Records_Librarian extends JFrame {
 		Record_btn.setBounds(3, 241, 196, 47);
 		sidepanel.add(Record_btn);
 		
-		JButton Logout_btn = new JButton("LOG OUT");
+	    Logout_btn = new JButton("LOG OUT");
 		Logout_btn.setForeground(new Color(57, 28, 11));
 		Logout_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Logout_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Logout_btn.setBackground(new Color(238, 180, 98));
 		Logout_btn.setBounds(3, 573, 196, 47);
+		Logout_btn.addActionListener(this);
 		sidepanel.add(Logout_btn);
 		
 		JPanel toppanel = new JPanel();
@@ -238,5 +245,33 @@ public class Records_Librarian extends JFrame {
 		mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		mainlbl.setBounds(0, 0, 1306, 708);
 		contentPane.add(mainlbl);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		// TODO Auto-generated method stub
+	    if (e.getSource() == dashboard_btn) 
+        {
+           dispose();
+           new Dashboard_Librarian().setVisible(true);
+        }
+        else if (e.getSource() == Books_btn) 
+        {
+            dispose();
+            new Books_Librarian().setVisible(true);
+        }
+        else if (e.getSource() == Logout_btn) 
+        {
+            dispose();
+            new Librarian_Login().setVisible(true);
+            
+        }
+        else if(e.getSource() == User_btn)
+        {
+        	dispose();
+        	new User_Librarian().setVisible(true);
+        }
+		
 	}
 }

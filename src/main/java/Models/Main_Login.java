@@ -84,6 +84,7 @@ public class Main_Login extends JFrame implements ActionListener{
 		librarian_btn.setFocusPainted(false);
 		librarian_btn.setContentAreaFilled(false);
 		librarian_btn.setBorderPainted(false);
+		librarian_btn.addActionListener(this);
 		panel.add(librarian_btn);
 		
 	    user_btn = new JButton("");
@@ -92,12 +93,14 @@ public class Main_Login extends JFrame implements ActionListener{
 		user_btn.setContentAreaFilled(false);
 		user_btn.setBorderPainted(false);
 		user_btn.setBounds(437, 173, 112, 103);
+		user_btn.addActionListener(this);
 		panel.add(user_btn);
 		
 		JLabel mainbglbl = new JLabel("");
 		mainbglbl.setIcon(new ImageIcon(Main_Login.class.getResource("/Resources/Main_login.png")));
 		mainbglbl.setBounds(0, 0, 686, 453);
 		panel.add(mainbglbl);
+		setLocationRelativeTo(null);
 	}
 
 	@Override

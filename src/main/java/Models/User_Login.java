@@ -118,6 +118,7 @@ public class User_Login extends JFrame implements ActionListener{
 		user_lblbackg.setIcon(new ImageIcon(User_Login.class.getResource("/Resources/User_backg.png")));
 		user_lblbackg.setBounds(0, 0, 686, 453);
 		contentPane.add(user_lblbackg);
+		setLocationRelativeTo(null);
 	}
 
 	@Override
@@ -132,7 +133,7 @@ public class User_Login extends JFrame implements ActionListener{
 			if(authentication.loginSuccess())
 			{
 				dispose();
-				new Dashboard_User().setVisible(true);
+				new Dashboard_User(username).setVisible(true);
 			}
 			else
 			{

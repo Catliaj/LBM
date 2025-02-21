@@ -11,6 +11,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import java.awt.Font;
@@ -21,8 +25,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import Modules.Books_Backend;
+import javax.swing.DefaultComboBoxModel;
 
-public class Books_Librarian extends JFrame {
+public class Books_Librarian extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -36,7 +42,14 @@ public class Books_Librarian extends JFrame {
 	private JTextField Location_textField;
 	private JTable table;
 	private JTextField search_textField;
-
+	private JButton dashboard_btn;
+	private JButton User_btn;
+	private JButton Record_btn;
+	private JButton Logout_btn;
+	private JButton Add_btn;
+	private JButton Update_btn;
+	private JComboBox Genre_comboBox;
+	Books_Backend books = new Books_Backend();
 	/**
 	 * Launch the application.
 	 */
@@ -77,12 +90,13 @@ public class Books_Librarian extends JFrame {
 		contentPane.add(sidepanel);
 		sidepanel.setLayout(null);
 		
-		JButton dashboard_btn = new JButton("DASHBOARD");
+	    dashboard_btn = new JButton("DASHBOARD");
 		dashboard_btn.setForeground(new Color(57, 28, 11));
 		dashboard_btn.setBackground(new Color(238, 180, 98));
 		dashboard_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		dashboard_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		dashboard_btn.setBounds(3, 69, 196, 47);
+		dashboard_btn.addActionListener(this);
 		sidepanel.add(dashboard_btn);
 		
 		JButton Books_btn = new JButton("BOOKS");
@@ -93,28 +107,31 @@ public class Books_Librarian extends JFrame {
 		Books_btn.setBounds(3, 127, 196, 47);
 		sidepanel.add(Books_btn);
 		
-		JButton User_btn = new JButton("USER");
+	    User_btn = new JButton("USER");
 		User_btn.setForeground(new Color(57, 28, 11));
 		User_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		User_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		User_btn.setBackground(new Color(238, 180, 98));
 		User_btn.setBounds(3, 184, 196, 47);
+		User_btn.addActionListener(this);
 		sidepanel.add(User_btn);
 		
-		JButton Record_btn = new JButton("RECORDS");
+	    Record_btn = new JButton("RECORDS");
 		Record_btn.setForeground(new Color(57, 28, 11));
 		Record_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Record_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Record_btn.setBackground(new Color(238, 180, 98));
 		Record_btn.setBounds(3, 241, 196, 47);
+		Record_btn.addActionListener(this);
 		sidepanel.add(Record_btn);
 		
-		JButton Logout_btn = new JButton("LOG OUT");
+	    Logout_btn = new JButton("LOG OUT");
 		Logout_btn.setForeground(new Color(57, 28, 11));
 		Logout_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Logout_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Logout_btn.setBackground(new Color(238, 180, 98));
 		Logout_btn.setBounds(3, 573, 196, 47);
+		Logout_btn.addActionListener(this);
 		sidepanel.add(Logout_btn);
 		
 		JPanel toppanel = new JPanel();
@@ -187,7 +204,8 @@ public class Books_Librarian extends JFrame {
 		ISBN_textField.setBounds(44, 179, 276, 30);
 		panel.add(ISBN_textField);
 		
-		JComboBox Genre_comboBox = new JComboBox();
+	    Genre_comboBox = new JComboBox();
+	    Genre_comboBox.setModel(new DefaultComboBoxModel(new String[] {"Fantasy", "Horror", "Comedy", "Crime", "Thriller", "Fantasy", "Science Fiction"}));
 		Genre_comboBox.setBackground(new Color(241, 230, 205));
 		Genre_comboBox.setBorder(new LineBorder(new Color(57, 28, 11), 2));
 		Genre_comboBox.setBounds(44, 245, 276, 30);
@@ -259,20 +277,22 @@ public class Books_Librarian extends JFrame {
 		Location_textField.setBounds(43, 513, 276, 30);
 		panel.add(Location_textField);
 		
-		JButton Add_btn = new JButton("ADD");
+	    Add_btn = new JButton("ADD");
 		Add_btn.setForeground(new Color(57, 28, 11));
 		Add_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Add_btn.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		Add_btn.setBackground(new Color(244, 208, 159));
 		Add_btn.setBounds(23, 560, 153, 30);
+		Add_btn.addActionListener(this);
 		panel.add(Add_btn);
 		
-		JButton Update_btn = new JButton("UPDATE");
+	    Update_btn = new JButton("UPDATE");
 		Update_btn.setForeground(new Color(57, 28, 11));
 		Update_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Update_btn.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		Update_btn.setBackground(new Color(244, 208, 159));
 		Update_btn.setBounds(195, 560, 153, 30);
+		Update_btn.addActionListener(this);
 		panel.add(Update_btn);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -317,11 +337,29 @@ public class Books_Librarian extends JFrame {
 				{null, null, null, null, null, null, null, null, null},
 			},
 			new String[] {
-				"Title", "Author", "ISBN", "Genre", "Publisher", "Publication Year", "Quantity", "Location", "Action"
+				"Title", "Author", "ISBN", "Genre", "Publisher", "Publication Year", "Quantity", "Location"
 			}
 		));
 		
 		table.setBackground(new Color(244, 208, 159));
+		table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow >= 0) {
+                    // Fill text fields with selected row data
+                	title_textField.setText(table.getValueAt(selectedRow, 0).toString());
+                	author_textField.setText(table.getValueAt(selectedRow, 1).toString());
+                	ISBN_textField.setText(table.getValueAt(selectedRow, 2).toString());
+                	Genre_comboBox.setSelectedItem(table.getValueAt(selectedRow, 3).toString());
+                	Publisher_textField.setText(table.getValueAt(selectedRow, 4).toString());
+                	Year_textField.setText(table.getValueAt(selectedRow, 5).toString());
+                	Quantity_textField.setText(table.getValueAt(selectedRow, 6).toString());
+                	Location_textField.setText(table.getValueAt(selectedRow, 7).toString());
+                	
+                }
+            }
+        });
 		scrollPane.setViewportView(table);
 		
 		JComboBox sort_comboBox = new JComboBox();
@@ -354,5 +392,77 @@ public class Books_Librarian extends JFrame {
 		mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		mainlbl.setBounds(0, 0, 1306, 708);
 		contentPane.add(mainlbl);
+		books.loadBooktable(table);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		// TODO Auto-generated method stub
+		if (e.getSource() == dashboard_btn) {
+			
+			this.dispose();
+			new Dashboard_Librarian().setVisible(true);;
+		}
+		else if (e.getSource() == User_btn) {
+			// User_Librarian user = new User_Librarian();
+			// user.setVisible(true);
+			this.dispose();
+			new User_Librarian().setVisible(true);
+		}
+		else if (e.getSource() == Record_btn) {
+			// Record_Librarian record = new Record_Librarian();
+			// record.setVisible(true);
+			this.dispose();
+			new Records_Librarian().setVisible(true);
+		}
+		else if (e.getSource() == Logout_btn) {
+			// Login login = new Login();
+			// login.setVisible(true);
+			this.dispose();
+			new Librarian_Login().setVisible(true);
+		}
+		else if (e.getSource() == Add_btn) {
+			String title = title_textField.getText();
+			String author = author_textField.getText();
+			String ISBN = ISBN_textField.getText();
+			int isbn = Integer.parseInt(ISBN);
+			String genre = Genre_comboBox.getSelectedItem().toString();
+			String publisher = Publisher_textField.getText();
+			String year = Year_textField.getText();
+			String quantity = Quantity_textField.getText();
+			String location = Location_textField.getText();
+			books.addbook(title, author, publisher, genre, year, quantity, location, isbn);
+			books.loadBooktable(table);
+			title_textField.setText("");
+			author_textField.setText("");
+			ISBN_textField.setText("");
+			Publisher_textField.setText("");
+			Year_textField.setText("");
+			Quantity_textField.setText("");
+			Location_textField.setText("");	
+		}
+		else if (e.getSource() == Update_btn) {
+			String title = title_textField.getText();
+			String author = author_textField.getText();
+			String ISBN = ISBN_textField.getText();
+			int isbn = Integer.parseInt(ISBN);
+			String genre = Genre_comboBox.getSelectedItem().toString();
+			String publisher = Publisher_textField.getText();
+			String year = Year_textField.getText();
+			String quantity = Quantity_textField.getText();
+			String location = Location_textField.getText();
+			books.updateBook(title, author, publisher, genre, year, quantity, location, isbn);
+			books.loadBooktable(table);
+			title_textField.setText("");
+			author_textField.setText("");
+			ISBN_textField.setText("");
+			Publisher_textField.setText("");
+			Year_textField.setText("");
+			Quantity_textField.setText("");
+			Location_textField.setText("");
+		}
+		
+		
 	}
 }

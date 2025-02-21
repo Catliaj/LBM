@@ -398,6 +398,15 @@ public class User_Librarian extends JFrame implements ActionListener{
 			String phonenumber = textField_5.getText();
 			String password = textField_6.getText();
 			user.addUser(firstname, middleinitial, surname, email, phonenumber, username, password);
+			user.loadUserTable(table);
+			textField_1.setText("");
+			textField_2.setText("");
+			textField_4.setText("");
+			textField.setText("");
+			textField_3.setText("");
+			textField_5.setText("");
+			textField_6.setText("");
+			
 		}
 		
 		else if (e.getSource() == Add_btn) 
@@ -410,6 +419,14 @@ public class User_Librarian extends JFrame implements ActionListener{
 			String phonenumber = textField_5.getText();
 			String password = textField_6.getText();
 			user.updateUser(firstname, middleinitial, surname, email, phonenumber, username, password, password);
+			user.loadUserTable(table);
+			textField_1.setText("");
+			textField_2.setText("");
+			textField_4.setText("");
+			textField.setText("");
+			textField_3.setText("");
+			textField_5.setText("");
+			textField_6.setText("");
 		}
 		else if (e.getSource() == dashboard_btn) 
         {

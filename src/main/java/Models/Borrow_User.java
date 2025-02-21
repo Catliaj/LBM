@@ -33,7 +33,7 @@ import java.awt.event.MouseEvent;
 
 import Modules.Books_Backend;
 
-public class Borrow_User extends JFrame {
+public class Borrow_User extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -45,6 +45,9 @@ public class Borrow_User extends JFrame {
 	private JTextField textField_10;
 	private JTextField textField_11;
 	private JTextField textField_12;
+	private JDateChooser dateChooser;
+	private JDateChooser dateChooser_1;
+	private JButton Books_btn_1;
 	private JTable table;
 	Books_Backend book = new Books_Backend();
 	private JTextField search;
@@ -56,7 +59,7 @@ public class Borrow_User extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Borrow_User frame = new Borrow_User();
+					Borrow_User frame = new Borrow_User(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,8 +71,20 @@ public class Borrow_User extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Borrow_User() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	String username;
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Borrow_User(String username) {
+		setUsername(username);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1106, 714);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -132,11 +147,11 @@ public class Borrow_User extends JFrame {
 		       		   					genrelbl_1.setBounds(50, 239, 177, 22);
 		       		   					panel_1_1.add(genrelbl_1);
 		       		   					
-		       		   					JDateChooser dateChooser = new JDateChooser();
+		       		   				    dateChooser = new JDateChooser();
 		       		   					dateChooser.setBounds(46, 206, 259, 30);
 		       		   					panel_1_1.add(dateChooser);
 		       		   					
-		       		   					JDateChooser dateChooser_1 = new JDateChooser();
+		       		   				    dateChooser_1 = new JDateChooser();
 		       		   					dateChooser_1.setBounds(49, 264, 259, 30);
 		       		   					panel_1_1.add(dateChooser_1);
 		       		   					
@@ -155,7 +170,7 @@ public class Borrow_User extends JFrame {
 		       		   					textField_6.setBounds(45, 138, 259, 30);
 		       		   					panel_1_1.add(textField_6);
 		       		   					
-		       		   					JButton Books_btn_1 = new JButton("BORROW");
+		       		   				    Books_btn_1 = new JButton("BORROW");
 		       		   					Books_btn_1.setBounds(93, 333, 177, 47);
 		       		   					panel_1_1.add(Books_btn_1);
 		       		   					Books_btn_1.setForeground(new Color(57, 28, 11));
@@ -354,8 +369,25 @@ public class Borrow_User extends JFrame {
 		       		   											mainlbl.setBounds(0, -68, 1306, 776);
 		       		   											contentPane.add(mainlbl);
 		       		   											book.loadBooktable(table);
+		       		   										Books_btn_1.addActionListener(this);
 		       		   		
 		       		 
 }
-}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		// TODO Auto-generated method stub
+		if (e.getSource() == Books_btn_1) {
+			String booktitle = textField_7.getText();
+			String username = textField_6.getText();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String date_borrowed = sdf.format(dateChooser.getDate());
+			String date_returned = sdf.format(dateChooser_1.getDate());
+			book.borrowbook(booktitle, getUsername(), date_borrowed, date_returned);
+        }
+		}
+		
+	}
+
 

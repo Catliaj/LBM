@@ -26,8 +26,9 @@ import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.Timer;
+import Modules.Dasbhoard_UserBackend;
 
-public class History_User extends JFrame {
+public class History_User extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -37,6 +38,10 @@ public class History_User extends JFrame {
 	private JTextField textField_1;
 	private JLabel timeLabel;
 	private JLabel dateLabel;
+	private JButton dashboard_btn;
+	private JButton Logout_btn;
+	private JLabel name;
+	Dasbhoard_UserBackend user = new Dasbhoard_UserBackend();
 	
 	/**
 	 * Launch the application.
@@ -45,7 +50,7 @@ public class History_User extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					History_User frame = new History_User();
+					History_User frame = new History_User(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +62,16 @@ public class History_User extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public History_User() {
+	private String username;
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public History_User(String Username) 
+	{
+		setUsername(Username);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1320, 745);
 		contentPane = new JPanel();
@@ -78,36 +92,31 @@ public class History_User extends JFrame {
 		contentPane.add(sidepanel);
 		sidepanel.setLayout(null);
 		
-		JButton dashboard_btn = new JButton("DASHBOARD");
+	    dashboard_btn = new JButton("DASHBOARD");
 		dashboard_btn.setForeground(new Color(57, 28, 11));
 		dashboard_btn.setBackground(new Color(238, 180, 98));
 		dashboard_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		dashboard_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		dashboard_btn.setBounds(3, 69, 196, 47);
+		dashboard_btn.addActionListener(this);
 		sidepanel.add(dashboard_btn);
 		
-		JButton Books_btn = new JButton("BOOKS");
-		Books_btn.setForeground(new Color(57, 28, 11));
-		Books_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		Books_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
-		Books_btn.setBackground(new Color(238, 180, 98));
-		Books_btn.setBounds(3, 127, 196, 47);
-		sidepanel.add(Books_btn);
-		
 		JButton Record_btn = new JButton("HISTORY");
+		Record_btn.setEnabled(false);
 		Record_btn.setForeground(new Color(57, 28, 11));
 		Record_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Record_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Record_btn.setBackground(new Color(238, 180, 98));
-		Record_btn.setBounds(3, 184, 196, 47);
+		Record_btn.setBounds(3, 126, 196, 47);
 		sidepanel.add(Record_btn);
 		
-		JButton Logout_btn = new JButton("LOG OUT");
+	    Logout_btn = new JButton("LOG OUT");
 		Logout_btn.setForeground(new Color(57, 28, 11));
 		Logout_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		Logout_btn.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		Logout_btn.setBackground(new Color(238, 180, 98));
 		Logout_btn.setBounds(3, 573, 196, 47);
+		Logout_btn.addActionListener(this);
 		sidepanel.add(Logout_btn);
 		
 		JPanel toppanel = new JPanel();
@@ -118,15 +127,20 @@ public class History_User extends JFrame {
 		
 		JPanel panel_admin = new JPanel();
 		panel_admin.setBackground(new Color(238, 180, 98));
-		panel_admin.setBounds(10, 20, 244, 58);
+		panel_admin.setBounds(10, 20, 398, 58);
 		panel_admin.setBorder(new LineBorder(new Color(57, 28, 11), 4));
 		contentPane.add(panel_admin);
 		panel_admin.setLayout(null);
 		
-		JLabel welcomelbl = new JLabel("WELCOME, USER!");
-		welcomelbl.setBounds(17, 3, 252, 48);
+		JLabel welcomelbl = new JLabel("WELCOME,");
+		welcomelbl.setBounds(17, 3, 135, 48);
 		welcomelbl.setFont(new Font("Lucida Sans", Font.BOLD, 22));
 		panel_admin.add(welcomelbl);
+		
+	    name = new JLabel("WELCOME");
+		name.setFont(new Font("Lucida Sans", Font.BOLD, 22));
+		name.setBounds(142, 3, 246, 48);
+		panel_admin.add(name);
 
 		
 		JPanel panel = new JPanel();
@@ -162,27 +176,13 @@ public class History_User extends JFrame {
 		                tableHeader.setPreferredSize(new Dimension(tableHeader.getWidth(), 30));
 		        		table.setModel(new DefaultTableModel(
 		        			new Object[][] {
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
-		        				{null, null, null, null, null, null, null, null},
+		        			
 		        			},
 		        			new String[] {
-		        				"Name", "Book Title", "Borrow Date", "Due Date", "Return Date", "Overdue Days", "Status", "Fines"
+		        				"Name", "Book Title", "Borrow Date", "Due Date", "Overdue Days", "Status", "Fines"
 		        			}
 		        		));
-		        		table.getColumnModel().getColumn(7).setResizable(false);
+		        		table.getColumnModel().getColumn(6).setResizable(false);
 		        		
 		        		table.setBackground(new Color(244, 208, 159));
 		        		scrollPane.setViewportView(table);
@@ -234,7 +234,7 @@ public class History_User extends JFrame {
 		panel_1_1.add(lblTotalFines);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("");
-		lblNewLabel_1_1.setIcon(new ImageIcon(History_User.class.getResource("/Resources/fines_icon.png")));
+		//lblNewLabel_1_1.setIcon(new ImageIcon(History_User.class.getResource("/Resources/fines_icon.png")));
 		lblNewLabel_1_1.setBounds(12, 16, 86, 87);
 		panel_1_1.add(lblNewLabel_1_1);
 		       	
@@ -262,7 +262,9 @@ public class History_User extends JFrame {
 		       		   	mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		       		   	mainlbl.setBounds(0, 0, 1306, 708);
 		       		   	contentPane.add(mainlbl);
-
+		       		 user.getName(getUsername());
+		       		UpdateLabelName(getUsername());
+		       		user.loadHistorytable(table);
 		    startClock(); // Call method to update time
 		}
 	private void startClock() {
@@ -278,6 +280,36 @@ public class History_User extends JFrame {
 	        }
 	    });
 	    timer.start();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		// TODO Auto-generated method stub
+		if(e.getSource() == dashboard_btn)
+		{
+			dispose();
+			new Dashboard_User(getUsername()).setVisible(true);
+		}
+		else if (e.getSource() == Logout_btn) {
+			dispose();
+			new User_Login().setVisible(true);
+		}
+		
+	}
+	private void UpdateLabelName(String username)
+	{
+		String updatename = user.getName(username);
+		if(updatename != null)
+		{
+			
+			name.setText("<html>" +updatename.replace("\n","<br>") + "</html>");
+		}
+		else
+		{
+			name.setText("User Not Found");
+		}
+				
 	}
 }
 

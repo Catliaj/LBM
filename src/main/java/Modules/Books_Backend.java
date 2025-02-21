@@ -28,7 +28,7 @@ public class Books_Backend
 		setISBN(ISBN);
 		try
 		{
-			String query = "INSERT INTO books (BookTitle, Author, Publisher, Genre, Publication_Year, Quantity, Location, ISBN) VALUES(?,?,?,?,?,?,?,?) ";
+			String query = "INSERT INTO books (Title, Author, Publisher, Genre, Publication_Year, Quantity, Location, ISBN) VALUES(?,?,?,?,?,?,?,?) ";
 			connection = db.getConnection();
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, getBookTitle());
@@ -61,7 +61,7 @@ public class Books_Backend
 		setISBN(ISBN);
 		try {
 			connection = db.getConnection();
-			String query = "UPDATE books SET BookTitle = ?, Author = ?, Publisher = ?, Genre = ?, Publication_Year = ?, Quantity = ?, Location = ? WHERE ISBN = ?";
+			String query = "UPDATE books SET Title = ?, Author = ?, Publisher = ?, Genre = ?, Publication_Year = ?, Quantity = ?, Location = ? WHERE ISBN = ?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, getBookTitle());
 			ps.setString(2, getAuthor());
@@ -97,6 +97,55 @@ public class Books_Backend
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
 		}
+	}
+	
+		public void borrowbook(String BookTitle, String username, String date_borrowed, String date_returned) 
+		{
+			setBookTitle(BookTitle); 
+			
+		try { connection = db.getConnection();
+	
+	    // Retrieve the book_id based on the BookTitle
+	    String queryBookId = "SELECT book_id FROM books WHERE Title = ?";
+	    PreparedStatement psBookId = connection.prepareStatement(queryBookId);
+	    psBookId.setString(1, getBookTitle());
+	    ResultSet rsBookId = psBookId.executeQuery();
+	    int bookId = 0;
+	    if (rsBookId.next()) {
+	        bookId = rsBookId.getInt("book_id");
+	    }
+	
+	    // Retrieve the user_id based on the username
+	    String queryUserId = "SELECT user_id FROM users WHERE username = ?";
+	    PreparedStatement psUserId = connection.prepareStatement(queryUserId);
+	    psUserId.setString(1, username);
+	    ResultSet rsUserId = psUserId.executeQuery();
+	    int userId = 0;
+	    if (rsUserId.next()) {
+	        userId = rsUserId.getInt("user_id");
+	    }
+	
+	    // Update the Quantity in the books table
+	    String queryUpdateQuantity = "UPDATE books SET Quantity = Quantity - 1 WHERE book_id = ?";
+	    PreparedStatement psUpdateQuantity = connection.prepareStatement(queryUpdateQuantity);
+	    psUpdateQuantity.setInt(1, bookId);
+	    psUpdateQuantity.executeUpdate();
+	
+	    // Insert a new record into the borrowing table
+	    String queryInsertBorrowing = "INSERT INTO borrowing (book_id, user_id, borrowing_date, return_date , copies, STATUS) VALUES (?, ?, ?, ?, ?,'BORROWED')";
+	    PreparedStatement psInsertBorrowing = connection.prepareStatement(queryInsertBorrowing);
+	    psInsertBorrowing.setInt(1, bookId);
+	    psInsertBorrowing.setInt(2, userId);
+	    psInsertBorrowing.setString(3, date_borrowed);
+	    psInsertBorrowing.setString(4, date_returned);
+	    psInsertBorrowing.setInt(5, 1);
+	    psInsertBorrowing.executeUpdate();
+	
+	    JOptionPane.showMessageDialog(null, "Book Borrowed Successfully");
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+	}
 	}
 	
 	

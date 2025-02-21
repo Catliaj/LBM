@@ -119,6 +119,7 @@ public class Librarian_Login extends JFrame implements ActionListener
 		user_lblbackg.setIcon(new ImageIcon(Librarian_Login.class.getResource("/Resources/Lib_backg.png")));
 		user_lblbackg.setBounds(0, 0, 686, 453);
 		contentPane.add(user_lblbackg);
+		setLocationRelativeTo(null);
 	}
 
 	@Override
