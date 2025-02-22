@@ -149,10 +149,14 @@ public class Borrow_User extends JFrame implements ActionListener {
 		       		   					
 		       		   				    dateChooser = new JDateChooser();
 		       		   					dateChooser.setBounds(46, 206, 259, 30);
+		       		   					dateChooser.setBackground(new Color(241, 230, 205));
+		       		   					dateChooser.setBorder(new LineBorder(new Color(57, 28, 11), 3));
 		       		   					panel_1_1.add(dateChooser);
 		       		   					
 		       		   				    dateChooser_1 = new JDateChooser();
 		       		   					dateChooser_1.setBounds(49, 264, 259, 30);
+		       		   					dateChooser_1.setBackground(new Color(241, 230, 205));
+		       		   					dateChooser_1.setBorder(new LineBorder(new Color(57, 28, 11), 3));
 		       		   					panel_1_1.add(dateChooser_1);
 		       		   					
 		       		   					JLabel lblQuantity_1 = new JLabel("Name:");
@@ -361,14 +365,22 @@ public class Borrow_User extends JFrame implements ActionListener {
 		       		   								        		
 		       		   								        		table.setBackground(new Color(244, 208, 159));
 		       		   								        		scrollPane.setViewportView(table);
-		       		   										
-		       		   										
-		       		   										
-		       		   											mainlbl.setBackground(new Color(238, 180, 98));
-		       		   											mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
-		       		   											mainlbl.setBounds(0, -68, 1306, 776);
-		       		   											contentPane.add(mainlbl);
 		       		   											book.loadBooktable(table);
+		       		   											
+		       		   											JButton Back_btn = new JButton("BACK");
+		       		   											Back_btn.setForeground(new Color(57, 28, 11));
+		       		   											Back_btn.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		       		   											Back_btn.setBorder(new LineBorder(new Color(57, 28, 11), 3));
+		       		   											Back_btn.setBackground(new Color(238, 180, 98));
+		       		   											Back_btn.setBounds(10, 7, 142, 37);
+		       		   											contentPane.add(Back_btn);
+		       		   											
+		       		   											
+		       		   											
+		       		   												mainlbl.setBackground(new Color(238, 180, 98));
+		       		   												mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
+		       		   												mainlbl.setBounds(0, -68, 1306, 776);
+		       		   												contentPane.add(mainlbl);
 		       		   										Books_btn_1.addActionListener(this);
 		       		   		
 		       		 
@@ -387,7 +399,6 @@ public class Borrow_User extends JFrame implements ActionListener {
 			book.borrowbook(booktitle, getUsername(), date_borrowed, date_returned);
         }
 		}
-		
 	}
 
 

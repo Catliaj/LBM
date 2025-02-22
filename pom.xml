@@ -49,6 +49,11 @@
 	    <artifactId>jasperreports</artifactId>
 	    <version>6.21.3</version>
 	</dependency>
+	<dependency>
+		<groupId>org.capstone</groupId>
+		<artifactId>HMS</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
 
   <build>

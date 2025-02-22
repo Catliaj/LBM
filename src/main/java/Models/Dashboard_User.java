@@ -156,22 +156,17 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel_1_1_1.setForeground(new Color(57, 28, 11));
 		panel_1_1_1.setBorder(new LineBorder(new Color(159, 106, 56), 4));
 		panel_1_1_1.setBackground(new Color(238, 180, 98));
-		panel_1_1_1.setBounds(223, 277, 705, 235);
+		panel_1_1_1.setBounds(223, 277, 705, 248);
 		contentPane.add(panel_1_1_1);
 		
 		JLabel lblNotification = new JLabel("NOTIFICATION");
 		lblNotification.setFont(new Font("Lucida Sans", Font.BOLD, 22));
-		lblNotification.setBounds(21, 10, 252, 48);
+		lblNotification.setBounds(70, 10, 252, 48);
 		panel_1_1_1.add(lblNotification);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(31, 192, 638, 0);
 		panel_1_1_1.add(scrollPane_1);
-		
-	    textArea = new JTextArea();
-	    textArea.setFont(new Font("Courier New", Font.BOLD, 15));
-		textArea.setBounds(21, 52, 664, 160);
-		panel_1_1_1.add(textArea);
 																				
 		JPanel panel_admin_1 = new JPanel();
 		panel_admin_1.setLayout(null);
@@ -184,7 +179,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel.setLayout(null);
 		panel.setBorder(new LineBorder(new Color(159, 106, 56), 5));
 		panel.setBackground(new Color(238, 180, 98));
-		panel.setBounds(949, 103, 335, 411);
+		panel.setBounds(949, 103, 335, 422);
 		contentPane.add(panel);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -255,9 +250,9 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel_1.setBackground(new Color(238, 180, 98));
 		panel_1.setBounds(248, 130, 223, 114);
 		contentPane.add(panel_1);
-		
+		 
 		textField1 = new JTextField();
-		textField1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField1.setFont(new Font("Lucida Sans", Font.BOLD, 35));
 		textField1.setColumns(10);
 		textField1.setBackground(new Color(238, 180, 98));
 		textField1.setBounds(106, 20, 107, 63);
@@ -282,7 +277,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		contentPane.add(panel_1_1);
 		
 		textField2 = new JTextField();
-		textField2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField2.setFont(new Font("Lucida Sans", Font.BOLD, 35));
 		textField2.setColumns(10);
 		textField2.setBackground(new Color(238, 180, 98));
 		textField2.setBounds(106, 20, 107, 63);
@@ -294,7 +289,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		panel_1_1.add(lblDueSoon);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("");
-		lblNewLabel_1_1.setIcon(new ImageIcon(Dashboard_User.class.getResource("/Resources/overdue_icon.png")));
+		lblNewLabel_1_1.setIcon(new ImageIcon(Dashboard_User.class.getResource("/Resources/due_icon.png")));
 		lblNewLabel_1_1.setBounds(12, 16, 86, 87);
 		panel_1_1.add(lblNewLabel_1_1);
 		
@@ -303,7 +298,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		borrow.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		borrow.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		borrow.setBackground(new Color(238, 180, 98));
-		borrow.setBounds(322, 568, 273, 75);
+		borrow.setBounds(376, 576, 273, 75);
 		borrow.addActionListener(this);
 		contentPane.add(borrow);
 		
@@ -312,7 +307,7 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		renew.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		renew.setBorder(new LineBorder(new Color(57, 28, 11), 6));
 		renew.setBackground(new Color(238, 180, 98));
-		renew.setBounds(772, 568, 273, 75);
+		renew.setBounds(797, 576, 273, 75);
 		renew.addActionListener(this);
 		contentPane.add(renew);
 		user.getName(getUsername());
@@ -321,7 +316,17 @@ public class Dashboard_User extends JFrame implements ActionListener{
 		mainlbl.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/Main_background.png")));
 		mainlbl.setBounds(0, 0, 1306, 708);
 		contentPane.add(mainlbl);
-		user.loadHistoryTextArea(Username, textArea);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(21, 69, 664, 160);
+		panel_1_1_1.add(scrollPane_2);
+		
+	    textArea = new JTextArea();
+	    scrollPane_2.setViewportView(textArea);
+	    textArea.setBackground(new Color(244, 208, 159));
+	    textArea.setBorder(new LineBorder(new Color(57, 28, 11), 6));
+	    textArea.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+	    user.loadHistoryTextArea(Username, textArea);
 		user.updateBorrowedAndDueSoonCounts(Username, textField1, textField2);
 		user.loadOverdueBooks(Username, table);
         dateLabel = new JLabel();

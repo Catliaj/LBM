@@ -15,13 +15,18 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,12 +40,13 @@ public class History_User extends JFrame implements ActionListener{
 	private final JLabel mainlbl = new JLabel("");
 	private JTable table;
 	private JTextField search_textField;
-	private JTextField textField_1;
+	private JTextField total;
 	private JLabel timeLabel;
 	private JLabel dateLabel;
 	private JButton dashboard_btn;
 	private JButton Logout_btn;
 	private JLabel name;
+	private JComboBox<String> filter_comboBox; // Declare globally
 	Dasbhoard_UserBackend user = new Dasbhoard_UserBackend();
 	
 	/**
@@ -187,11 +193,24 @@ public class History_User extends JFrame implements ActionListener{
 		        		table.setBackground(new Color(244, 208, 159));
 		        		scrollPane.setViewportView(table);
 		
-		JComboBox sort_comboBox = new JComboBox();
-		sort_comboBox.setBackground(new Color(241, 230, 205));
-		sort_comboBox.setBounds(879, 122, 176, 32);
-		sort_comboBox.setBorder(new LineBorder(new Color(57, 28, 11), 2));
-		contentPane.add(sort_comboBox);
+		JComboBox filter_comboBox = new JComboBox();
+		filter_comboBox.setBackground(new Color(241, 230, 205));
+		filter_comboBox.setBounds(879, 122, 176, 32);
+		filter_comboBox.setBorder(new LineBorder(new Color(57, 28, 11), 2));
+		
+		filter_comboBox.addItem("All");
+		filter_comboBox.addItem("Returned");
+		filter_comboBox.addItem("Overdue");
+		filter_comboBox.addItem("Monthly");
+		filter_comboBox.addItem("Yearly");
+		
+		contentPane.add(filter_comboBox);
+		
+		filter_comboBox.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    }
+		});
 		
 		JPanel search_panel = new JPanel();
 		search_panel.setBorder(new LineBorder(new Color(57, 28, 11), 2));
@@ -208,6 +227,14 @@ public class History_User extends JFrame implements ActionListener{
 		search_textField.setColumns(10);
 		search_textField.setBorder(new LineBorder(new Color(57, 28, 11), 2));
 		search_textField.setBackground(new Color(241, 230, 205));
+		search_textField.addKeyListener(new KeyAdapter() {
+		  
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            searchRecords();
+		        }
+		    }
+		});
 		
 		JLabel search_icon = new JLabel("");
 		search_icon.setIcon(new ImageIcon(Books_Librarian.class.getResource("/Resources/people (2).png")));
@@ -222,11 +249,16 @@ public class History_User extends JFrame implements ActionListener{
 		panel_1_1.setBounds(1065, 336, 223, 114);
 		contentPane.add(panel_1_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBackground(new Color(238, 180, 98));
-		textField_1.setBounds(106, 20, 107, 63);
-		panel_1_1.add(textField_1);
+		total = new JTextField();
+		total.setColumns(10);
+		total.setFont(new Font("Lucida Sans", Font.BOLD, 20));
+		total.setBackground(new Color(238, 180, 98));
+		total.setEditable(false); // Make it read-only
+		total.setBounds(106, 20, 107, 63);
+		panel_1_1.add(total);
+		
+		computeTotalFines();
+		table.getModel().addTableModelListener(e -> computeTotalFines());
 		
 		JLabel lblTotalFines = new JLabel("TOTAL FINES");
 		lblTotalFines.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -234,6 +266,7 @@ public class History_User extends JFrame implements ActionListener{
 		panel_1_1.add(lblTotalFines);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("");
+		lblNewLabel_1_1.setIcon(new ImageIcon(History_User.class.getResource("/Resources/fines_icon.png")));
 		//lblNewLabel_1_1.setIcon(new ImageIcon(History_User.class.getResource("/Resources/fines_icon.png")));
 		lblNewLabel_1_1.setBounds(12, 16, 86, 87);
 		panel_1_1.add(lblNewLabel_1_1);
@@ -311,6 +344,45 @@ public class History_User extends JFrame implements ActionListener{
 		}
 				
 	}
+	
+	private void searchRecords() {
+	    String searchText = search_textField.getText().toLowerCase();
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+	    table.setRowSorter(sorter);
+
+	    if (searchText.trim().isEmpty()) {
+	        sorter.setRowFilter(null);  // Reset filter
+	    } else {
+	        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
+	    }
+	}
+		
+	private void computeTotalFines() {
+	    if (total == null) {
+	        System.out.println("Total fines field is not initialized yet.");
+	        return; // Exit if total is null
+	    }
+
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    double totalFine = 0.0;
+
+	    int fineColumnIndex = 6; // Ensure this is the correct column index for fines
+
+	    for (int i = 0; i < model.getRowCount(); i++) {
+	        try {
+	            double fine = Double.parseDouble(model.getValueAt(i, fineColumnIndex).toString());
+	            totalFine += fine;
+	        } catch (NumberFormatException | NullPointerException e) {
+	            // Skip rows with invalid or empty fine values
+	        }
+	    }
+
+	    total.setText(String.format("%.2f", totalFine)); // Format to 2 decimal places
+	}
+
+
+
 }
 
 

@@ -59,6 +59,7 @@ public class User_Login extends JFrame implements ActionListener{
 		
 		passwordField = new JPasswordField();
 		passwordField.setBackground(new Color(255, 245, 227));
+		passwordField.setBorder(new LineBorder(new Color(57, 28, 11), 2));
 		passwordField.setBounds(258, 222, 175, 25);
 		contentPane.add(passwordField);
 		
